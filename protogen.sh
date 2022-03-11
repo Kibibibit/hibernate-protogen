@@ -145,12 +145,12 @@ do
             --user="$USER" \
             --password="$PASSWORD" \
             --database="$DB" \
-            --execute="SELECT DATA_TYPE, IS_NULLABLE, COLUMN_KEY FROM information_schema.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field';"`
+            --execute="SELECT DATA_TYPE, COLUMN_KEY FROM information_schema.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field';"`
             META_SET=""
             metacount=0
             for metadata in $META
             do
-              if [ $metacount -gt 2 ]
+              if [ $metacount -gt 1 ]
               then
                 META_SET="$META_SET$DELIM$metadata"
                 

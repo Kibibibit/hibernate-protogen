@@ -41,12 +41,8 @@ function writeFields {
         IFS=$DELIM read -ra META <<< $META_SET
 
         SQL_TYPE=${META[1]}
-        NULLABLE=${META[2]}
-        KEY=${META[3]}
-
-        
-        
-        PROTO_TYPE=`./sql-to-prototype.sh $SQL_TYPE $NULLABLE`
+        KEY=${META[2]}
+        PROTO_TYPE=`./sql-to-prototype.sh $SQL_TYPE $VAR $KEY`
         if [ ! "$KEY" = "PRI" ] && [ "$KEY_TYPE" = "$OTHER" ]
         then
             write "\t$PROTO_TYPE $VAR = $count;"

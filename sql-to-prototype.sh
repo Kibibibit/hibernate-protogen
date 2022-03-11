@@ -1,7 +1,9 @@
 #!/bin/bash
 
 SQL_TYPE=$1
-NULLABLE=$2
+VAR=$2
+KEY=$3
+
 
 
 declare -A types
@@ -23,7 +25,7 @@ types=(
 
 PROTO_TYPE="${types[$SQL_TYPE]}"
 
-if [ "$NULLABLE" = "YES" ]
+if  [ ! "$KEY" = "PRI" ] && [ ! "$VAR" = "dtype" ]
 then
     PROTO_TYPE="optional $PROTO_TYPE"
 fi

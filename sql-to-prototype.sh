@@ -2,7 +2,8 @@
 
 SQL_TYPE=$1
 VAR=$2
-KEY=$3
+NULLABLE=$3
+KEY=$4
 
 
 
@@ -25,7 +26,7 @@ types=(
 
 PROTO_TYPE="${types[$SQL_TYPE]}"
 
-if  [ ! "$KEY" = "PRI" ] && [ ! "$VAR" = "dtype" ]
+if  [ "$NULLABLE" = "YES" ]
 then
     PROTO_TYPE="optional $PROTO_TYPE"
 fi

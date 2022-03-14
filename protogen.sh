@@ -8,6 +8,7 @@ HOST=127.0.0.1
 USER=$GENNY_LOCAL_MYSQL_USER
 PASSWORD=$GENNY_LOCAL_MYSQL_PASSWORD
 DB=$GENNY_LOCAL_MYSQL_DB
+PACKAGE="genny"
 
 DELIM=":"
 
@@ -19,11 +20,12 @@ HELP="
 -u - Sets the MySQL user. Defaults to \$GENNY_LOCAL_MYSQL_USER\n
 -p - Sets the MySQL password. Defaults to \$GENNY_LOCAL_MYSQL_PASSWORD\n
 -d - Sets the MySQL db. Defaults to \$GENNY_LOCAL_MYSQL_DB\n
+-f - Sets the Package. Defaults to genny\n
 -h - Displays this message
 "
 
 
-while getopts ":P:H:u:p:dh" opt
+while getopts ":f:P:H:u:p:dh" opt
 do
 
   case $opt in
@@ -41,6 +43,9 @@ do
       ;;
     d)
       DB=$OPTARG >&2
+      ;;
+    f)
+      PACKAGE=$OPTARG >&2
       ;;
     h)
       echo -e $HELP
@@ -145,12 +150,12 @@ do
             --user="$USER" \
             --password="$PASSWORD" \
             --database="$DB" \
-            --execute="SELECT DATA_TYPE, COLUMN_KEY FROM information_schema.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field';"`
+            --execute="SELECT DATA_TYPE, IS_NULLABLE, COLUMN_KEY FROM information_schema.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field';"`
             META_SET=""
             metacount=0
             for metadata in $META
             do
-              if [ $metacount -gt 1 ]
+              if [ $metacount -gt 2 ]
               then
                 META_SET="$META_SET$DELIM$metadata"
                 
@@ -168,7 +173,7 @@ do
 
         done
 
-        ./create-proto.sh $table $DELIM "$TABLE_FIELD_SET" "$TABLE_META_SET"
+        ./create-proto.sh $PACKAGE $table $DELIM "$TABLE_FIELD_SET" "$TABLE_META_SET"
 
       fi
 

@@ -29,6 +29,8 @@ PROTO_TYPE="${types[$SQL_TYPE]}"
 if  [ "$NULLABLE" = "YES" ]
 then
     PROTO_TYPE="optional $PROTO_TYPE"
+else
+    PROTO_TYPE="required $PROTO_TYPE"
 fi
 
 if [ -z "$PROTO_TYPE" ]
